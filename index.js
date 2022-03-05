@@ -11,6 +11,7 @@ const handler = async (event) => {
   const eventType= requestData['event-data'].event
 
   if (validateMailSource(timestamp, token, signature)) {
+    console.log('auth passed')
     try {
       const snsData = {
         Provider: 'Mailgun',
@@ -30,18 +31,22 @@ const handler = async (event) => {
 
       await publishData(publishTemplate)
 
+      console.log('save and publish passed')
+
       return {
         status: 200,
         event,
         message: 'data saved and published successfully'
       }
     } catch (error) {
+      console.log('save and publish failed')
       return {
         status: 400,
         message: 'Something went wrong'
       }
     }
   } else {
+    console.log('auth failed')
     return {
       status: 401,
       message: 'Mail webhook source not authenticated'
