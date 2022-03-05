@@ -8,7 +8,7 @@ const handler = async (event) => {
   const { timestamp, token, signature } = requestData['signature']
 
   const { id } = requestData['event-data']
-  const eventType= requestData['event-data'].event
+  const eventType = requestData['event-data'].event
 
   if (validateMailSource(timestamp, token, signature)) {
     console.log('auth passed')
@@ -26,7 +26,7 @@ const handler = async (event) => {
 
       await addOrUpdateMail({
         id,
-        ...requestData
+        ...event
       })
 
       await publishData(publishTemplate)
