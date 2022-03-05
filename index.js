@@ -7,14 +7,15 @@ const handler = async (event) => {
 
   const { timestamp, token, signature } = requestData['signature']
 
-  const { id, event } = requestData['event-data']
+  const { id } = requestData['event-data']
+  const eventType= requestData['event-data'].event
 
   if (validateMailSource(timestamp, token, signature)) {
     try {
       const snsData = {
         Provider: 'Mailgun',
         timestamp,
-        type: event
+        type: eventType
       }
 
       const publishTemplate = {
