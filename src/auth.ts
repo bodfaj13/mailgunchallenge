@@ -10,13 +10,13 @@ import crypto from 'crypto'
 const validateMailSource = (timestamp: string, token: string, signature: string): boolean => {
   const value = timestamp + token
 
-  console.log(process.env.MAILGUN_API_KEY)
-
+  // use sha256 to carry out verification 
   const hash = crypto.createHmac('sha256',
     process.env.MAILGUN_API_KEY || '')
     .update(value)
     .digest('hex')
 
+  // comapare hash with signature
   return hash === signature
 }
 

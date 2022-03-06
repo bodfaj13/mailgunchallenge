@@ -5,13 +5,20 @@ provider:
   stage: dev
   region: us-east-1
   memorySize: 3008
+
+# custom variables
 custom:
   tableName: mailgunretry-db
   topicName: mailgunretry-sns
   topicArn: arn:aws:sns:${self:provider.region}:#{AWS::AccountId}:${self:custom.topicName}
+  tableArn: arn:aws:dynamodb:${self:provider.region}:#{AWS::AccountId}:${self:custom.tableName}
+
+# required plaugins
 plugins:
   - serverless-iam-roles-per-function
   - serverless-pseudo-parameters
+
+# lambda functions
 functions:
   app:
     handler: dist/index.default
@@ -23,11 +30,12 @@ functions:
           cors: true
       - sns:
           arn: ${self:custom.topicArn}
+    # function roles
     iamRoleStatements:
       - Effect: "Allow"
         Action:
           - "dynamodb:PutItem"
-        Resource: !GetAtt MyDynamoDbTable.Arn
+        Resource: ${self:custom.tableArn}
       - Effect: "Allow"
         Action:
           - "sns:Publish"
@@ -36,6 +44,7 @@ functions:
       MAILGUN_API_KEY: ${env:MAILGUN_API_KEY}
       TABLE_NAME: ${self:custom.tableName}
       AWS_SNS_TOPIC_ARN: ${self:custom.topicArn}
+# function resources
 resources:
   Resources:
     MySnsTopic:
