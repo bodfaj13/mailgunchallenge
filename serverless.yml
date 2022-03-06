@@ -44,6 +44,7 @@ functions:
       MAILGUN_API_KEY: ${env:MAILGUN_API_KEY}
       TABLE_NAME: ${self:custom.tableName}
       AWS_SNS_TOPIC_ARN: ${self:custom.topicArn}
+      
 # function resources
 resources:
   Resources:
