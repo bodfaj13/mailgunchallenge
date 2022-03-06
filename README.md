@@ -5,6 +5,7 @@ CI/CD Job triggered on push to [main] branch
 ```
 
 >Mailgun challenge using: 
+- Serverless
 - Typescipt
 - Mailgun api
 - AWS SNS
