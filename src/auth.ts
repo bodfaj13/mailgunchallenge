@@ -1,4 +1,4 @@
-const crypto = require('crypto')
+import crypto from 'crypto'
 
 /**
  * Middleware to validate mail source
@@ -7,7 +7,7 @@ const crypto = require('crypto')
  * @param signature string
  * @returns boolean
  */
-const validateMailSource = async (timestamp, token, signature) => {
+const validateMailSource = (timestamp: string, token: string, signature: string): boolean => {
   const value = timestamp + token
 
   const hash = crypto.createHmac('sha256',
@@ -18,4 +18,4 @@ const validateMailSource = async (timestamp, token, signature) => {
   return hash === signature
 }
 
-module.exports = validateMailSource
+export default validateMailSource

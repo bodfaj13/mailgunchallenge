@@ -1,11 +1,11 @@
-const addOrUpdateMail = require('./dynamo')
-const publishData = require('./sns')
-const validateMailSource = require('./auth')
+import addOrUpdateMail from './dynamo'
+import publishData from './sns'
+import validateMailSource from './auth'
 
-const handler = async (event) => {
+const handler = async (event: any) => {
   const requestData = JSON.parse(event.body)
 
-  const { timestamp, token, signature } = requestData['signature']
+  const { timestamp, token, signature }: {timestamp: string, token: string, signature: string} = requestData['signature']
 
   const { id } = requestData['event-data']
   const eventType = requestData['event-data'].event
@@ -13,13 +13,20 @@ const handler = async (event) => {
   if (validateMailSource(timestamp, token, signature)) {
     console.log('auth passed')
     try {
-      const snsData = {
+      const snsData: {
+        Provider: string,
+        timestamp: string,
+        type: string
+      } = {
         Provider: 'Mailgun',
         timestamp,
         type: eventType
       }
 
-      const publishTemplate = {
+      const publishTemplate: {
+        message: string,
+        subject: string
+      } = {
         message: `${JSON.stringify(snsData, null, 4)}`,
         subject: 'Mailgun Challenge Publish'
       }
@@ -65,6 +72,4 @@ const handler = async (event) => {
   }
 }
 
-module.exports = {
-  handler
-}
+export default handler

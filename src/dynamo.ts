@@ -1,4 +1,4 @@
-const AWS = require('aws-sdk')
+import AWS from 'aws-sdk'
 
 const dynamoClient = new AWS.DynamoDB.DocumentClient()
 const TABLE_NAME = process.env.TABLE_NAME
@@ -8,13 +8,13 @@ const TABLE_NAME = process.env.TABLE_NAME
  * @param data Object 
  * @returns 
  */
-const addOrUpdateMail = async (data) => {
+const addOrUpdateMail = async (data: any) => {
   const params = {
     TableName: TABLE_NAME || '',
     Item: data
   }
-
+  
   return await dynamoClient.put(params).promise()
 }
 
-module.exports = addOrUpdateMail
+export default addOrUpdateMail

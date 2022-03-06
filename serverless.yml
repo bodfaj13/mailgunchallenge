@@ -14,7 +14,7 @@ plugins:
   - serverless-pseudo-parameters
 functions:
   app:
-    handler: index.handler
+    handler: dist/index.default
     memorySize: 3008
     events:
       - http:
@@ -33,7 +33,6 @@ functions:
           - "sns:Publish"
         Resource: ${self:custom.topicArn}
     environment:
-      MAILGUN_API_KEY: dc60272b1c66aaea69d413d5dcd7b011-ee13fadb-16c1ea7d
       TABLE_NAME: ${self:custom.tableName}
       AWS_SNS_TOPIC_ARN: ${self:custom.topicArn}
 resources:
