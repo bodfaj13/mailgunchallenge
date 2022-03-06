@@ -42,6 +42,8 @@ const handler = async (event) => {
 
     } catch (error) {
 
+      console.log(error)
+
       console.log('save and publish failed')
 
       return {
@@ -57,7 +59,7 @@ const handler = async (event) => {
     return {
       statusCode: 401,
       body: JSON.stringify({
-        message: 'auth faild'
+        message: 'auth failed'
       })
     }
   }
