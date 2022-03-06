@@ -58,6 +58,7 @@ const handler = async (event: any) => {
       }
 
     } catch (error) {
+      console.log(error)
       // return response
       return {
         statusCode: 401,
