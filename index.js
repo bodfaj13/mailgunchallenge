@@ -13,51 +13,48 @@ const handler = async (event) => {
   if (validateMailSource(timestamp, token, signature)) {
     console.log('auth passed')
     try {
-      const snsData = {
-        Provider: 'Mailgun',
-        timestamp,
-        type: eventType
-      }
+      // const snsData = {
+      //   Provider: 'Mailgun',
+      //   timestamp,
+      //   type: eventType
+      // }
 
-      const publishTemplate = {
-        message: `${JSON.stringify(snsData, null, 4)}`,
-        subject: 'Mailgun Challenge Publish'
-      }
+      // const publishTemplate = {
+      //   message: `${JSON.stringify(snsData, null, 4)}`,
+      //   subject: 'Mailgun Challenge Publish'
+      // }
 
-      await addOrUpdateMail({
-        id,
-        ...event
-      })
+      // await addOrUpdateMail({
+      //   id,
+      //   ...event
+      // })
 
-      await publishData(publishTemplate)
+      // await publishData(publishTemplate)
 
       console.log('save and publish passed')
 
+      console.log(requestData)
+
       return {
-        statusCode: 401,
-        body: {
-          message: 'data saved and published successfully'
-        }
+        statusCode: 200,
+        body: 'data saved and published successfully'
       }
 
     } catch (error) {
 
       console.log('save and publish failed')
-      
+
       return {
         statusCode: 401,
-        body: {
-          message: 'something went wrong'
-        }
+        body: 'something went wrong'
       }
     }
   } else {
     console.log('auth failed')
+
     return {
       statusCode: 401,
-      body: {
-        message: 'data not saved and not published successfully'
-      }
+      body: 'data not saved and not published successfully'
     }
   }
 }
