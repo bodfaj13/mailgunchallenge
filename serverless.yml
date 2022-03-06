@@ -11,7 +11,7 @@ custom:
   tableName: mailgunretry-db
   topicName: mailgunretry-sns
   topicArn: arn:aws:sns:${self:provider.region}:#{AWS::AccountId}:${self:custom.topicName}
-  tableArn: arn:aws:dynamodb:${self:provider.region}:#{AWS::AccountId}:${self:custom.tableName}
+  tableArn: arn:aws:dynamodb:${self:provider.region}:#{AWS::AccountId}:table/${self:custom.tableName}
 
 # required plaugins
 plugins:
