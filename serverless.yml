@@ -5,6 +5,8 @@ provider:
   stage: dev
   region: us-east-1
   memorySize: 3008
+custom:
+  tableName: mailgunretry-db
 functions:
   app:
     handler: index.handler
@@ -12,11 +14,31 @@ functions:
     events:
       - http:
           path: /api/webhook
-          method: ANY
+          method: POST
           cors: true
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - "dynamodb:PutItem"
+        Resource: !GetAtt MyDynamoDbTable.Arn
     environment:
       MAILGUN_API_KEY: dc60272b1c66aaea69d413d5dcd7b011-ee13fadb-16c1ea7d
       MAILGUN_DOMAIN: sandbox3df0c92ea08b4c88b3b0923bc003cde5.mailgun.org
-      TABLE_NAME: mailgun
+      TABLE_NAME: ${self:custom.tableName}
       DEFAULT_TEST_EMAIL: bellohargbola13@gmail.com
       AWS_SNS_TOPIC_ARN: arn:aws:sns:us-east-1:187584259401:mailgun
+resources:
+  Resources:
+    MyDynamoDbTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.tableName}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
