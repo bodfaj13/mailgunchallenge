@@ -8,7 +8,7 @@ provider:
 custom:
   tableName: mailgunretry-db
   topicName: mailgunretry-sns
-  topicArn:  arn:aws:sns:${self:provider.region}:#{AWS::AccountId}:${self:custom.topicName}
+  topicArn: arn:aws:sns:${self:provider.region}:#{AWS::AccountId}:${self:custom.topicName}
 plugins:
   - serverless-iam-roles-per-function
   - serverless-pseudo-parameters
@@ -21,7 +21,7 @@ functions:
           path: /api/webhook
           method: POST
           cors: true
-      - sns: 
+      - sns:
           arn: ${self:custom.topicArn}
     iamRoleStatements:
       - Effect: "Allow"
@@ -33,7 +33,7 @@ functions:
           - "sns:Publish"
         Resource: ${self:custom.topicArn}
     environment:
-      MAILGUN_API_KEY: dc60272b1c66aaea69d413d5dcd7b011-ee13fadb-16c1ea7d
+      MAILGUN_API_KEY: ${env:MAILGUN_API_KEY}
       TABLE_NAME: ${self:custom.tableName}
       AWS_SNS_TOPIC_ARN: ${self:custom.topicArn}
 resources:
