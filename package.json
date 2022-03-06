@@ -1,0 +1,28 @@
+{
+  "name": "mailgunretry",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "aws-sdk": "^2.1087.0",
+    "crypto": "^1.0.1",
+    "serverless": "^3.7.1",
+    "serverless-iam-roles-per-function": "^3.2.0",
+    "serverless-pseudo-parameters": "^2.6.1",
+    "typescript": "^4.6.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bodfaj13/mailgunchallenge.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bodfaj13/mailgunchallenge/issues"
+  },
+  "homepage": "https://github.com/bodfaj13/mailgunchallenge#readme"
+}

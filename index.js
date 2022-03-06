@@ -26,7 +26,7 @@ const handler = async (event) => {
 
       await addOrUpdateMail({
         id,
-        ...event
+        ...requestData
       })
 
       await publishData(publishTemplate)

@@ -7,6 +7,11 @@ provider:
   memorySize: 3008
 custom:
   tableName: mailgunretry-db
+  topicName: mailgunretry-sns
+  topicArn:  arn:aws:sns:${self:provider.region}:#{AWS::AccountId}:${self:custom.topicName}
+plugins:
+  - serverless-iam-roles-per-function
+  - serverless-pseudo-parameters
 functions:
   app:
     handler: index.handler
@@ -16,19 +21,27 @@ functions:
           path: /api/webhook
           method: POST
           cors: true
+      - sns: 
+          arn: ${self:custom.topicArn}
     iamRoleStatements:
       - Effect: "Allow"
         Action:
           - "dynamodb:PutItem"
         Resource: !GetAtt MyDynamoDbTable.Arn
+      - Effect: "Allow"
+        Action:
+          - "sns:Publish"
+        Resource: ${self:custom.topicArn}
     environment:
       MAILGUN_API_KEY: dc60272b1c66aaea69d413d5dcd7b011-ee13fadb-16c1ea7d
-      MAILGUN_DOMAIN: sandbox3df0c92ea08b4c88b3b0923bc003cde5.mailgun.org
       TABLE_NAME: ${self:custom.tableName}
-      DEFAULT_TEST_EMAIL: bellohargbola13@gmail.com
-      AWS_SNS_TOPIC_ARN: arn:aws:sns:us-east-1:187584259401:mailgun
+      AWS_SNS_TOPIC_ARN: ${self:custom.topicArn}
 resources:
   Resources:
+    MySnsTopic:
+      Type: "AWS::SNS::Topic"
+      Properties:
+        TopicName: ${self:custom.topicName}
     MyDynamoDbTable:
       Type: AWS::DynamoDB::Table
       Properties:
