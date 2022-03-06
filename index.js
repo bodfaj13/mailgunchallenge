@@ -4,8 +4,8 @@ const validateMailSource = require('./auth')
 
 const handler = async (event) => {
   return {
-    "status": 200,
-    "message": 'hello'
+    statusCode: 200,
+    body: 'hello'
   }
   // const requestData = JSON.parse(event.body)
 
