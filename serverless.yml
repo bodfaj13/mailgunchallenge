@@ -8,6 +8,7 @@ provider:
 functions:
   app:
     handler: index.handler
+    memorySize: 3008
     events:
       - http:
           path: /api/webhook
